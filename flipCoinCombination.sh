@@ -78,10 +78,10 @@ function doubletFlipCoin()
 	percentTH=`awk -v th=${output[TH]} -v n=$n 'BEGIN {print (th/n)}'`
 
 	#printing for doublet
-	echo "Heads: ${output[HH]}, percent: $percentHH"
-	echo "Tails: ${output[TT]}, percent: $percentTT"
-	echo "Heads: ${output[HT]}, percent: $percentHT"
-	echo "Tails: ${output[TH]}, percent: $percentTH"
+	echo "HH: ${output[HH]}, percent: $percentHH"
+	echo "TT: ${output[TT]}, percent: $percentTT"
+	echo "HT: ${output[HT]}, percent: $percentHT"
+	echo "TH: ${output[TH]}, percent: $percentTH"
 }
 if [ $type -eq 2 ]
 then
