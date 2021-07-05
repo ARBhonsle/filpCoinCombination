@@ -25,11 +25,11 @@ output[TTH]=0
 output[TTT]=0
 
 #type of flip
-echo "singlet:1 doublet:2 triplet:3"
+echo "singlet:1 doublet:2 triplet:3 all:4"
 read type
 
 #no of flips
-echo "give no of flips:"
+echo "give no of coin flips:(for type:$type)"
 read n
 
 #for singlet combination
@@ -50,7 +50,7 @@ function singletFlipCoin()
 	done
 
 	#output percent calculation
-	percentH=`awk -v h=${output[H]} -v n=$n 'BEGIN {print (h/n))}'`
+	percentH=`awk -v h=${output[H]} -v n=$n 'BEGIN {print (h/n)}'`
 	percentT=`awk -v t=${output[T]} -v n=$n 'BEGIN {print (t/n)}'`
 
 	#printing for singlet
@@ -169,5 +169,34 @@ elif [ $type -eq 3 ]
 then
 	tripletFlipCoin $n
 else
-	echo "wrong choice"
+	singletFlipCoin $n
+	doubletFlipCoin $n
+	tripletFlipCoin $n
 fi
+
+#sort to get winning combination
+declare -a wins
+c=0
+max=H
+for key in ${!output}
+do
+	wins[((c++))]=$((output[$key]))
+	if [ $((output[$max])) -lt $((output[$key])) ]
+	then
+		$max=$key
+	fi
+done
+for((c=0;c<${#wins[@]};c++))
+do
+	for((i=0;i<$((${#wins[@]}-1));i++))
+	do
+		if [ $((wins[$i])) -gt $((wins[$(($i+1))])) ]
+		then
+			temp=$((wins[$i]))
+			wins[$i]=$((wins[$(($i+1))]))
+			wins[$(($i+1))]=$temp
+		fi
+	done
+done
+echo "Sorted wins:${wins[*]}"
+echo "Wining Combination:$max"
