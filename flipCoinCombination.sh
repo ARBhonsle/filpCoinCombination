@@ -178,14 +178,15 @@ fi
 declare -a wins
 c=0
 max=H
-for key in ${!output}
+for key in ${!output[@]}
 do
 	wins[((c++))]=$((output[$key]))
 	if [ $((output[$max])) -lt $((output[$key])) ]
 	then
-		$max=$key
+		max=$key
 	fi
 done
+echo "wins array:${wins[@]}"
 for((c=0;c<${#wins[@]};c++))
 do
 	for((i=0;i<$((${#wins[@]}-1));i++))
